@@ -1,4 +1,4 @@
-/* [project]/app/styles/globals.css [app-client] (css) */
+/* [project]/app/globals.css [app-client] (css) */
 *, :before, :after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -525,4 +525,5 @@ body {
   color: rgb(190 24 93 / var(--tw-text-opacity, 1));
 }
 
-/*# sourceMappingURL=app_styles_globals_b52d8e.css.map*/
+
+/*# sourceMappingURL=app_globals_73c377.css.map*/
