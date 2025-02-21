@@ -2,7 +2,7 @@
   "name": "bruno-portfolio",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://borgesMagalhaes.io/bruno-portfolio",
+  "homepage": "https://brunomagalhaes.dev.br",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
