@@ -21,7 +21,6 @@ export default function Home() {
             <p className="text-gray-200">
               Com mais de uma década de experiência em Tecnologia da Informação, sou especialista em desenvolvimento de software e arquitetura de sistemas, atuando na concepção e entrega de soluções escaláveis e de alto desempenho.
               Minha expertise abrange o ecossistema .NET, incluindo .NET Core e C#, além de administração e otimização de bancos de dados SQL Server. Trabalho com DevOps, Integração Contínua/Entrega Contínua (CI/CD) e adoção de práticas ágeis para garantir automação, segurança e eficiência operacional.
-              {/* Minha trajetória inclui projetos estratégicos para grandes instituições governamentais e privadas, envolvendo Business Intelligence, análise de dados e modelagem de sistemas complexos. Além disso, tenho experiência na implementação de arquiteturas modernas baseadas em microsserviços e computação em nuvem. */}
               Comprometido com inovação e excelência, estou sempre explorando novas tecnologias e metodologias para impulsionar a transformação digital e a entrega de soluções robustas e eficientes.
             </p>
           </div>
@@ -34,17 +33,17 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-blue-300">Experiência Profissional</h2>
             <ul className="list-disc list-inside text-gray-200 mt-2">
               <li><strong>Linuxell Informática e Serviços LTDA</strong> - Analista de Sistema Sênior (2023 - Atual)</li>
-              <p>Responsável pela análise e desenvolvimento de soluções tecnológicas para projetos governamentais, aplicando boas práticas de engenharia de software e metodologias ágeis.</p>
+              Responsável pela análise e desenvolvimento de soluções tecnológicas para projetos governamentais, aplicando boas práticas de engenharia de software e metodologias ágeis.
               <li><strong>LAMPP-IT SOLUTIONS</strong> - Arquiteto de Software (2022 - 2023)</li>
-              <p>Planejamento e implementação de arquiteturas de software escaláveis, modelagem de dados e integração de sistemas complexos para o setor público.</p>
+              Planejamento e implementação de arquiteturas de software escaláveis, modelagem de dados e integração de sistemas complexos para o setor público.
               <li><strong>Secretaria Municipal de Saúde</strong> - Supervisor de Banco de Dados SQL Server (2022 - 2024)</li>
-              <p>Gerenciamento e otimização de bancos de dados, garantindo segurança e alta disponibilidade, além de liderar a equipe de administração de dados.</p>
+              Gerenciamento e otimização de bancos de dados, garantindo segurança e alta disponibilidade, além de liderar a equipe de administração de dados.
               <li><strong>Secretaria de Estado da Educação do Maranhão</strong> - Supervisor de Desenvolvimento de Sistemas (2019 - 2022)</li>
-              <p>Supervisão de times de desenvolvimento, coordenação de projetos estratégicos e implantação de sistemas críticos para a educação estadual.</p>
+              Supervisão de times de desenvolvimento, coordenação de projetos estratégicos e implantação de sistemas críticos para a educação estadual.
               <li><strong>Secretaria de Estado da Educação</strong> - Analista de Sistemas Sênior (2011 - 2019)</li>
-              <p>Desenvolvimento e manutenção de sistemas internos, implementação de integrações entre plataformas educacionais e suporte a infraestrutura tecnológica.</p>
+              Desenvolvimento e manutenção de sistemas internos, implementação de integrações entre plataformas educacionais e suporte a infraestrutura tecnológica.
               <li><strong>VECTRA Consultoria e Serviços</strong> - Técnico de Infraestrutura (2009 - 2011)</li>
-              <p>Administração e configuração de redes, suporte técnico e gerenciamento de SLA em ambientes críticos.</p>
+              Administração e configuração de redes, suporte técnico e gerenciamento de SLA em ambientes críticos.
             </ul>
           </div>
         </Card>
