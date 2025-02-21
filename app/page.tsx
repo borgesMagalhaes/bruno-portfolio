@@ -1,11 +1,10 @@
-"use client";
-
 import React from "react";
 import { FaLinkedin, FaFileAlt, FaInstagram } from "react-icons/fa";
 import { Card } from "@/components/ui/card";
 // import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+// "use client";
 
 export default function Home() {
   return (
@@ -67,6 +66,21 @@ export default function Home() {
 
       <section className="w-full max-w-4xl mt-8">
         <Card className="shadow-lg bg-gray-800 rounded-lg overflow-hidden"> 
+          <div className="p-6 space-y-4">
+            <h2 className="text-3xl font-semibold text-blue-300">Certificações Previstas</h2>
+            <ul className="list-disc list-inside text-gray-200 mt-2">
+              <li>Microsoft Certified: Azure Solutions Architect Expert</li>
+              <li>Certified Kubernetes Administrator (CKA)</li>
+              <li>Amazon AWS Certified Solutions Architect</li>
+              <li>Microsoft Certified: DevOps Engineer Expert</li>
+              <li>Google Cloud Professional Cloud Architect</li>
+            </ul>
+          </div>
+        </Card>
+      </section>
+
+      <section className="w-full max-w-4xl mt-8">
+        <Card className="shadow-lg bg-gray-800 rounded-lg overflow-hidden"> 
           <div className="p-6 flex justify-center gap-6">
             <Link href="https://www.linkedin.com/in/bruno-magalhaes-2b878a2a/" target="_blank">
               <FaLinkedin className="text-4xl text-blue-300 hover:text-blue-600" />
@@ -74,7 +88,7 @@ export default function Home() {
             <Link href="http://lattes.cnpq.br/0321021721183148" target="_blank">
               <FaFileAlt className="text-4xl text-gray-200 hover:text-gray-600" />
             </Link>
-            <Link href="https://www.instagram.com/borges_magalhaes" target="_blank">
+            <Link href="https://www.instagram.com/bruno_magalhaes" target="_blank">
               <FaInstagram className="text-4xl text-pink-400 hover:text-pink-700" />
             </Link>
           </div>
