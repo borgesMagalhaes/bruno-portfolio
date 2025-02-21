@@ -2,14 +2,13 @@
   "name": "bruno-portfolio",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://borgesMagalhaes.github.io/bruno-portfolio",
+  "homepage": "https://borgesMagalhaes.io/bruno-portfolio",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "export": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "npm run export && gh-pages -d dist"
+    "deploy": "next build && gh-pages -d dist"
   },
   "dependencies": {
     "next": "15.1.7",
