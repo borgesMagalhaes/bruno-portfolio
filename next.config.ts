@@ -2,11 +2,11 @@
 const nextConfig = {
   output: "export",
   distDir: "dist",
-  // basePath: "/bruno-portfolio", // Nome do repositório no GitHub
+  basePath: "", // Para domínio customizado, mantenha vazio
   trailingSlash: true,
   assetPrefix: "https://brunomagalhaes.dev.br/",
   images: {
-    unoptimized: true, // Evita erro com otimização de imagens no GitHub Pages
+    unoptimized: true, // Evita erro de otimização de imagens no GitHub Pages
   },
 };
 
