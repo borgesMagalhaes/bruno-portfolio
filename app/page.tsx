@@ -1,10 +1,11 @@
+"use client";
+
 import React from "react";
 import { FaLinkedin, FaFileAlt, FaInstagram } from "react-icons/fa";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-"use client";
 
 export default function Home() {
   return (
