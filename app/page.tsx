@@ -1,6 +1,6 @@
 import React from "react";
 import "./globals.css"; // Certifique-se de que o fadeIn está definido aqui
-import { FaDocker } from "react-icons/fa";
+import { FaDocker FaLinkedin, FaFileAlt, FaInstagram FaGithub } from "react-icons/fa";
 import { Card } from "@/components/ui/card";
 
 export default function Home() {
@@ -171,12 +171,49 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer className="w-full text-center py-6 mt-10 text-gray-300 footer-gradient border-t border-gray-700">
-        <p>
-          &copy; {new Date().getFullYear()} Bruno Magalhães. Todos os direitos
-          reservados.
-        </p>
-      </footer>
+      <footer className="w-full text-center py-6 mt-10 bg-gray-900 text-gray-300 border-t border-gray-700">
+  <div className="flex justify-center gap-6 mb-4">
+    {/* LinkedIn */}
+    <a
+      href="https://www.linkedin.com/in/bruno-magalhaes-2b878a2a/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FaLinkedin className="text-4xl text-blue-300 hover:text-blue-500" />
+    </a>
+
+    {/* Lattes */}
+    <a
+      href="http://lattes.cnpq.br/0321021721183148"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FaFileAlt className="text-4xl text-gray-200 hover:text-gray-500" />
+    </a>
+
+    {/* Instagram */}
+    <a
+      href="https://www.instagram.com/bruno_magalhaes"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FaInstagram className="text-4xl text-pink-400 hover:text-pink-600" />
+    </a>
+
+    {/* GitHub */}
+    <a
+      href="https://github.com/borgesMagalhaes"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FaGithub className="text-4xl text-gray-200 hover:text-gray-500" />
+    </a>
+  </div>
+
+  <p>&copy; {new Date().getFullYear()} Bruno Magalhães. Todos os direitos reservados.</p>
+</footer>
+
+
     </div>
   );
 }
