@@ -2,9 +2,9 @@
 const nextConfig = {
   output: "export",
   distDir: "dist",
-  basePath: "", // Deixe vazio para domínios customizados
+  basePath: "", // Mantém vazio para domínios personalizados
   trailingSlash: true,
-  assetPrefix: "https://brunomagalhaes.dev.br/",
+  assetPrefix: "./", // ESSENCIAL para exportação estática e carregar corretamente o CSS
   images: { unoptimized: true },
 };
 
