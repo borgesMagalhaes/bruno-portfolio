@@ -2,9 +2,9 @@
 const nextConfig = {
   output: "export",
   distDir: "dist",
-  basePath: "", // Mantém vazio para domínios personalizados
+  basePath: "",
   trailingSlash: true,
-  assetPrefix: "./", // ESSENCIAL para exportação estática e carregar corretamente o CSS
+  assetPrefix: "./", // Importante para exportação estática
   images: { unoptimized: true },
 };
 
