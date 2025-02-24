@@ -193,7 +193,7 @@ export default function Home() {
 
     {/* Instagram */}
     <a
-      href="https://www.instagram.com/bruno_magalhaes"
+      href="https://www.instagram.com/borges_magalhaes"
       target="_blank"
       rel="noopener noreferrer"
     >
