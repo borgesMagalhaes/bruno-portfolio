@@ -4,7 +4,7 @@ const nextConfig = {
   distDir: "dist",
   basePath: "",
   trailingSlash: true,
-  assetPrefix: "./", // Importante para exportação estática
+  assetPrefix: "https://brunomagalhaes.dev.br/", // Importante para exportação estática
   images: { unoptimized: true },
 };
 
