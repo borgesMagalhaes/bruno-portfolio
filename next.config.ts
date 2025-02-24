@@ -2,12 +2,10 @@
 const nextConfig = {
   output: "export",
   distDir: "dist",
-  basePath: "",
+  basePath: "", // Deixe vazio para domínios customizados
   trailingSlash: true,
-  // assetPrefix: "https://brunomagalhaes.dev.br/",
-    assetPrefix: "./",
+  assetPrefix: "https://brunomagalhaes.dev.br/",
   images: { unoptimized: true },
-  cleanDistDir: true ,// Limpa a pasta antes do build
 };
 
 module.exports = nextConfig;
