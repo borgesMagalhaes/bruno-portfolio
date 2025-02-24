@@ -175,7 +175,7 @@ export default function Home() {
   <div className="flex justify-center gap-6 mb-4">
     {/* LinkedIn */}
     <a
-      href="https://www.linkedin.com/in/bruno-magalhaes-2b878a2a/"
+      href="https://www.linkedin.com/in/bruno-magalh%C3%A3es-2b878a2a/"
       target="_blank"
       rel="noopener noreferrer"
     >
