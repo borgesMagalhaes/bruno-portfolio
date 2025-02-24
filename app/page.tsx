@@ -1,6 +1,6 @@
 import React from "react";
 import "./globals.css"; // Certifique-se de que o fadeIn está definido aqui
-import { FaDocker FaLinkedin, FaFileAlt, FaInstagram FaGithub } from "react-icons/fa";
+import { FaDocker, FaLinkedin, FaFileAlt, FaInstagram, FaGithub } from "react-icons/fa";
 import { Card } from "@/components/ui/card";
 
 export default function Home() {
