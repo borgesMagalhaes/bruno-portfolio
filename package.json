@@ -4,12 +4,11 @@
   "private": true,
   "homepage": "https://brunomagalhaes.dev.br",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "deploy": "npm run build && gh-pages -d dist"
-  },
+  "dev": "next dev --turbopack",
+  "build": "next build",
+  "start": "next start",
+  "export": "next build && next export && gh-pages -d dist"
+},
   "dependencies": {
     "next": "15.1.7",
     "react": "^19.0.0",
