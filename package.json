@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "deploy": "next build && gh-pages -d dist"
+    "deploy": "next build && echo.> dist/.nojekyll && gh-pages -d dist"
   },
   "dependencies": {
     "next": "15.1.7",
