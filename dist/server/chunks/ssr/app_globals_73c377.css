@@ -308,6 +308,10 @@ img, video {
   display: none;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
 }
