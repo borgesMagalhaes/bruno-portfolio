@@ -3,35 +3,112 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
-  FaDocker,
-  FaFileAlt,
+  FaEnvelope,
   FaGithub,
-  FaInstagram,
+  FaGlobe,
   FaLinkedin,
+  FaFileAlt,
 } from "react-icons/fa";
 import { cvData, Locale } from "@/app/data/cv";
 
 const uiText = {
   pt: {
-    role: "Arquiteto de Software .NET • SQL Server • DevOps",
-    aboutTitle: "Resumo Profissional",
-    stackTitle: "Tech Stack",
-    experienceTitle: "Experiência em Destaque",
+    roles: [
+      "Arquiteto de Software .NET",
+      "Especialista em SQL Server",
+      "Liderança Técnica e DevOps",
+    ],
+    nav: {
+      about: "Sobre",
+      specializations: "Especialidades",
+      experience: "Experiência",
+      education: "Formação",
+      initiatives: "Iniciativas",
+      courses: "Cursos",
+      contact: "Contato",
+    },
+    aboutTitle: "Sobre",
+    specializationsTitle: "Especialidades",
+    initiativesTitle: "Projetos e Iniciativas",
+    experienceTitle: "Experiência",
     educationTitle: "Formação Acadêmica",
-    coursesTitle: "Cursos em Destaque",
-    resumeButton: "Gerar Currículo",
-    ctaLabel: "Disponível para oportunidades em Arquitetura, Liderança Técnica e Banco de Dados.",
+    coursesTitle: "Cursos",
+    contactTitle: "Contato",
+    resumeButton: "Ver Currículo",
+    contactButton: "Fale Comigo",
+    downloadCvButton: "Baixar CV",
+    ctaLabel: "Disponível para oportunidades em Arquitetura de Software, Liderança Técnica e Banco de Dados.",
   },
   en: {
-    role: ".NET Software Architect • SQL Server • DevOps",
+    roles: [
+      ".NET Software Architect",
+      "SQL Server Specialist",
+      "Technical Leadership and DevOps",
+    ],
+    nav: {
+      about: "About",
+      specializations: "Specializations",
+      experience: "Experience",
+      education: "Education",
+      initiatives: "Initiatives",
+      courses: "Courses",
+      contact: "Contact",
+    },
     aboutTitle: "Professional Summary",
-    stackTitle: "Tech Stack",
-    experienceTitle: "Featured Experience",
+    specializationsTitle: "Specializations",
+    initiativesTitle: "Projects and Initiatives",
+    experienceTitle: "Experience",
     educationTitle: "Academic Background",
-    coursesTitle: "Featured Courses",
-    resumeButton: "Generate Resume",
+    coursesTitle: "Courses",
+    contactTitle: "Contact",
+    resumeButton: "View Resume",
+    contactButton: "Contact Me",
+    downloadCvButton: "Download CV",
     ctaLabel: "Open to opportunities in Architecture, Technical Leadership, and Database Engineering.",
   },
+} as const;
+
+const initiatives = {
+  pt: [
+    {
+      title: "Portfólio Profissional",
+      description: "Site profissional com currículo ATS/completo, internacionalização PT/EN e export estático para GitHub Pages.",
+      href: "https://brunomagalhaes.dev.br/",
+      internal: false,
+    },
+    {
+      title: "Currículo Técnico Estruturado",
+      description: "Fluxo de currículo com versão enxuta e detalhada, pronto para triagem técnica e revisão humana.",
+      href: "/curriculo",
+      internal: true,
+    },
+    {
+      title: "Repositórios no GitHub",
+      description: "Projetos e estudos focados em .NET, banco de dados, integração e evolução contínua.",
+      href: "https://github.com/borgesMagalhaes",
+      internal: false,
+    },
+  ],
+  en: [
+    {
+      title: "Professional Portfolio",
+      description: "Professional website with ATS/full resume flow, PT/EN support, and static export for GitHub Pages.",
+      href: "https://brunomagalhaes.dev.br/",
+      internal: false,
+    },
+    {
+      title: "Structured Technical Resume",
+      description: "Resume workflow with compact and detailed versions for automated screening and human review.",
+      href: "/curriculo",
+      internal: true,
+    },
+    {
+      title: "GitHub Repositories",
+      description: "Projects and studies focused on .NET, databases, integration, and continuous improvement.",
+      href: "https://github.com/borgesMagalhaes",
+      internal: false,
+    },
+  ],
 } as const;
 
 export default function Home() {
@@ -60,44 +137,65 @@ export default function Home() {
     <div className="min-h-screen tech-bg text-slate-100">
       <div className="scanline" aria-hidden />
       <div className="mx-auto max-w-6xl px-4 py-6 md:px-8">
-        <div className="mb-8 flex justify-end">
-          <button
-            onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
-            className="rounded-full border border-cyan-300/30 bg-slate-900/70 px-4 py-2 text-sm tracking-wide transition hover:border-cyan-300/80 hover:text-cyan-200"
-          >
-            {t.cta.switchTo}
-          </button>
-        </div>
+        <header className="reveal mb-8 rounded-2xl border border-cyan-200/20 bg-slate-900/65 p-6 shadow-2xl backdrop-blur md:p-8">
+          <div className="mb-7 flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/70 pb-4">
+            <nav className="flex flex-wrap gap-2 text-sm">
+              <a href="#about" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.about}</a>
+              <a href="#specializations" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.specializations}</a>
+              <a href="#experience" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.experience}</a>
+              <a href="#education" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.education}</a>
+              <a href="#initiatives" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.initiatives}</a>
+              <a href="#courses" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.courses}</a>
+              <a href="#contact" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.contact}</a>
+            </nav>
+            <button
+              onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
+              className="rounded-full border border-cyan-300/30 bg-slate-900/70 px-4 py-2 text-sm tracking-wide transition hover:border-cyan-300/80 hover:text-cyan-200"
+            >
+              {t.cta.switchTo}
+            </button>
+          </div>
 
-        <header className="reveal mb-10 rounded-2xl border border-cyan-200/20 bg-slate-900/65 p-6 shadow-2xl backdrop-blur">
           <p className="mb-2 font-mono text-xs uppercase tracking-[0.28em] text-cyan-300">
             Portfolio
           </p>
-          <h1 className="mb-2 text-3xl font-semibold text-cyan-100 md:text-5xl">
+          <h1 className="mb-3 text-3xl font-semibold text-cyan-100 md:text-6xl">
             {t.fullName}
           </h1>
-          <p className="mb-5 text-sm text-cyan-200 md:text-lg">{text.role}</p>
-          <p className="max-w-3xl text-slate-300">{text.ctaLabel}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mb-5 flex flex-wrap gap-2">
+            {text.roles.map((role) => (
+              <span key={role} className="rounded-full border border-cyan-300/30 bg-slate-950/45 px-3 py-1 text-xs text-cyan-100 md:text-sm">
+                {role}
+              </span>
+            ))}
+          </div>
+          <p className="max-w-3xl text-slate-300 md:text-lg">{text.ctaLabel}</p>
+          <div className="mt-7 flex flex-wrap gap-3">
             <Link
               href="/curriculo"
-              className="rounded-lg bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400"
+              className="rounded-lg bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400 md:px-6"
             >
               {text.resumeButton}
             </Link>
             <a
-              href={t.contact.website}
+              href="/curriculo"
+              className="rounded-lg border border-cyan-300/40 px-5 py-3 font-medium text-cyan-100 transition hover:border-cyan-200 hover:text-cyan-50 md:px-6"
+            >
+              {text.downloadCvButton}
+            </a>
+            <a
+              href={`mailto:${t.contact.email}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-cyan-300/40 px-5 py-3 font-medium text-cyan-100 transition hover:border-cyan-200 hover:text-cyan-50"
+              className="rounded-lg border border-cyan-300/40 px-5 py-3 font-medium text-cyan-100 transition hover:border-cyan-200 hover:text-cyan-50 md:px-6"
             >
-              {t.contact.website.replace("https://", "")}
+              {text.contactButton}
             </a>
           </div>
         </header>
 
         <main className="grid gap-6 md:grid-cols-2">
-          <section className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6">
+          <section id="about" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.aboutTitle}</h2>
             {t.summary.map((line) => (
               <p key={line} className="mb-3 text-slate-300">
@@ -109,40 +207,49 @@ export default function Home() {
             </p>
           </section>
 
-          <section className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6">
-            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.stackTitle}</h2>
-            <ul className="space-y-3 text-slate-300">
-              <li>
-                <strong className="text-cyan-100">Database:</strong> {t.skills.databases}
-              </li>
-              <li>
-                <strong className="text-cyan-100">Languages:</strong> {t.skills.languages}
-              </li>
-              <li>
-                <strong className="text-cyan-100">DevOps:</strong> {t.skills.devops}
-              </li>
-            </ul>
+          <section id="specializations" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6">
+            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.specializationsTitle}</h2>
+            <div className="grid gap-3">
+              <article className="rounded-lg border border-slate-700 bg-slate-950/45 p-3">
+                <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-cyan-100">Database</h3>
+                <p className="text-sm text-slate-300">{t.skills.databases}</p>
+              </article>
+              <article className="rounded-lg border border-slate-700 bg-slate-950/45 p-3">
+                <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-cyan-100">Languages</h3>
+                <p className="text-sm text-slate-300">{t.skills.languages}</p>
+              </article>
+              <article className="rounded-lg border border-slate-700 bg-slate-950/45 p-3">
+                <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-cyan-100">DevOps</h3>
+                <p className="text-sm text-slate-300">{t.skills.devops}</p>
+              </article>
+            </div>
           </section>
 
-          <section className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
+          <section id="experience" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.experienceTitle}</h2>
-            <div className="grid gap-4 md:grid-cols-2">
-              {t.experience.slice(0, 4).map((job) => (
+            <div className="space-y-4">
+              {t.experience.map((job) => (
                 <article
                   key={`${job.company}-${job.role}`}
-                  className="rounded-xl border border-slate-700 bg-slate-950/45 p-4 transition hover:-translate-y-1 hover:border-cyan-400/40"
+                  className="relative rounded-xl border border-slate-700 bg-slate-950/45 p-4 pl-8 transition hover:border-cyan-400/40"
                 >
-                  <h3 className="font-semibold text-cyan-100">{job.role}</h3>
+                  <span className="absolute left-3 top-5 h-3 w-3 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(34,211,238,0.7)]" />
+                  <span className="absolute bottom-4 left-[17px] top-9 w-px bg-slate-700" />
+                  <h3 className="font-semibold text-cyan-100">{job.role} - {job.company}</h3>
                   <p className="mb-2 text-sm text-slate-400">
-                    {job.company} • {job.period}
+                    {job.location} • {job.period} • {job.duration}
                   </p>
-                  <p className="text-sm text-slate-300">{job.bullets[0]}</p>
+                  <ul className="list-disc pl-5 text-sm text-slate-300">
+                    {job.bullets.slice(0, 3).map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
+          <section id="education" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.educationTitle}</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {t.education.map((item) => (
@@ -157,7 +264,28 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
+          <section id="initiatives" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
+            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.initiativesTitle}</h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              {initiatives[language].map((item) => (
+                <article key={item.title} className="rounded-xl border border-slate-700 bg-slate-950/45 p-4">
+                  <h3 className="mb-2 font-semibold text-cyan-100">{item.title}</h3>
+                  <p className="mb-4 text-sm text-slate-300">{item.description}</p>
+                  {item.internal ? (
+                    <Link href={item.href} className="text-sm text-cyan-300 underline-offset-4 hover:underline">
+                      {language === "pt" ? "Abrir seção" : "Open section"}
+                    </Link>
+                  ) : (
+                    <a href={item.href} target="_blank" rel="noopener noreferrer" className="text-sm text-cyan-300 underline-offset-4 hover:underline">
+                      {language === "pt" ? "Acessar link" : "Open link"}
+                    </a>
+                  )}
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section id="courses" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.coursesTitle}</h2>
             <div className="max-h-[24rem] overflow-y-auto rounded-xl border border-slate-700/70 p-3 pr-2">
               <div className="grid gap-3 md:grid-cols-2">
@@ -174,20 +302,23 @@ export default function Home() {
           </section>
         </main>
 
-        <footer className="reveal mt-10 rounded-2xl border border-slate-700/60 bg-slate-900/55 p-5">
-          <div className="mb-4 flex flex-wrap items-center justify-center gap-5 text-3xl">
-            <FaDocker className="text-cyan-300" />
-            <a href={t.contact.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <FaLinkedin className="transition hover:text-cyan-300" />
+        <footer id="contact" className="reveal mt-10 rounded-2xl border border-slate-700/60 bg-slate-900/55 p-5">
+          <h2 className="mb-4 text-center text-xl font-semibold text-cyan-200">{text.contactTitle}</h2>
+          <div className="mb-4 grid gap-3 text-sm text-slate-300 md:grid-cols-2">
+            <a className="flex items-center gap-2 rounded-lg border border-slate-700 px-3 py-2 hover:border-cyan-300/60" href={`mailto:${t.contact.email}`} target="_blank" rel="noopener noreferrer">
+              <FaEnvelope /> {t.contact.email}
             </a>
-            <a href="http://lattes.cnpq.br/0321021721183148" target="_blank" rel="noopener noreferrer" aria-label="Lattes">
-              <FaFileAlt className="transition hover:text-cyan-300" />
+            <a className="flex items-center gap-2 rounded-lg border border-slate-700 px-3 py-2 hover:border-cyan-300/60" href={t.contact.website} target="_blank" rel="noopener noreferrer">
+              <FaGlobe /> {t.contact.website.replace("https://", "")}
             </a>
-            <a href="https://www.instagram.com/borges_magalhaes" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <FaInstagram className="transition hover:text-cyan-300" />
+            <a className="flex items-center gap-2 rounded-lg border border-slate-700 px-3 py-2 hover:border-cyan-300/60" href={t.contact.linkedin} target="_blank" rel="noopener noreferrer">
+              <FaLinkedin /> LinkedIn
             </a>
-            <a href={t.contact.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <FaGithub className="transition hover:text-cyan-300" />
+            <a className="flex items-center gap-2 rounded-lg border border-slate-700 px-3 py-2 hover:border-cyan-300/60" href={t.contact.github} target="_blank" rel="noopener noreferrer">
+              <FaGithub /> GitHub
+            </a>
+            <a className="flex items-center gap-2 rounded-lg border border-slate-700 px-3 py-2 hover:border-cyan-300/60" href="http://lattes.cnpq.br/0321021721183148" target="_blank" rel="noopener noreferrer">
+              <FaFileAlt /> Lattes
             </a>
           </div>
           <p className="text-center text-sm text-slate-400">
