@@ -3,21 +3,136 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #1a1a2e;
+  background-color: #030711;
+  color: #d4dde9;
+  font-family: var(--font-body), "Consolas", "Courier New", monospace;
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), "Segoe UI", sans-serif;
+}
+
+:root {
+  --grid-color: rgba(56, 189, 248, 0.09);
+  --bg-pulse-duration: 12s;
+  --grid-drift-duration: 18s;
+  --glow-duration: 14s;
+  --scan-duration: 6s;
+  --canvas-opacity: 0.9;
+  --scan-opacity: 0.85;
+}
+
+.tech-bg {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(34, 197, 94, 0.14), transparent 30%),
+    radial-gradient(circle at 85% 10%, rgba(14, 165, 233, 0.2), transparent 35%),
+    radial-gradient(circle at 62% 84%, rgba(59, 130, 246, 0.2), transparent 33%),
+    linear-gradient(160deg, #020617 0%, #081222 48%, #071525 100%);
+  position: relative;
+  background-size: 130% 130%;
+  animation: bgPulse var(--bg-pulse-duration) ease-in-out infinite;
+  overflow: clip;
+}
+
+.tech-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: gridDrift var(--grid-drift-duration) linear infinite;
+}
+
+.tech-bg::after {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.14) 0%, transparent 55%);
+  filter: blur(60px);
+  animation: glowOrbit var(--glow-duration) ease-in-out infinite;
+}
+
+.tech-bg .scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tech-bg .scanline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.65), transparent);
+  opacity: var(--scan-opacity);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+  animation: scanMove var(--scan-duration) ease-in-out infinite;
+}
+
+.tech-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  opacity: var(--canvas-opacity);
+}
+
+@keyframes bgPulse {
+  0% { background-position: 0% 40%; }
+  50% { background-position: 100% 60%; }
+  100% { background-position: 0% 40%; }
+}
+
+@keyframes gridDrift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-32px, -32px); }
+}
+
+@keyframes glowOrbit {
+  0% { transform: translate(-6%, -4%) scale(1); opacity: 0.45; }
+  50% { transform: translate(6%, 4%) scale(1.1); opacity: 0.7; }
+  100% { transform: translate(-6%, -4%) scale(1); opacity: 0.45; }
+}
+
+@keyframes scanMove {
+  0% { top: 6%; opacity: 0; }
+  12% { opacity: 0.55; }
+  48% { opacity: 0.3; }
+  100% { top: 92%; opacity: 0; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.reveal-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-bg,
+  .tech-bg::before,
+  .tech-bg::after,
+  .tech-bg .scanline::after,
+  .tech-canvas,
+  .reveal,
+  .reveal-show {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
+    transition: none;
+    animation: none;
   }
-}
-
-.fade-in-section {
-  animation: fadeIn 0.5s ease-out forwards;
 }
