@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { cvData, Locale } from "@/app/data/cv";
 
 type ResumeMode = "ats" | "full";
@@ -221,6 +221,13 @@ export default function CurriculoPage() {
     const body = bodyMatch ? bodyMatch[1] : htmlContent;
     return `${styles}${body}`;
   }, [htmlContent]);
+
+  useEffect(() => {
+    const modeParam = new URLSearchParams(window.location.search).get("mode");
+    if (modeParam === "ats" || modeParam === "full") {
+      setMode(modeParam);
+    }
+  }, []);
 
   const handleDownloadHtml = () => {
     const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });

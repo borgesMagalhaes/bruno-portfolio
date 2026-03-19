@@ -16,7 +16,7 @@ const uiText = {
     roles: [
       "Arquiteto de Software .NET",
       "Especialista em SQL Server",
-      "Liderança Técnica e DevOps",
+      "DevOps e Plataformas",
     ],
     nav: {
       about: "Sobre",
@@ -38,15 +38,21 @@ const uiText = {
     coursesTitle: "Cursos",
     contactTitle: "Contato",
     resumeButton: "Ver Currículo",
+    resumeAtsButton: "Currículo ATS",
+    resumeFullButton: "Currículo Completo",
     contactButton: "Fale Comigo",
     downloadCvButton: "Baixar CV",
-    ctaLabel: "Disponível para oportunidades em Arquitetura de Software, Liderança Técnica e Banco de Dados.",
+    filterTitle: "Filtrar por stack",
+    filterAll: "Todos",
+    noMatchExperience: "Nenhuma experiência encontrada para o filtro selecionado.",
+    noMatchCourses: "Nenhum curso encontrado para o filtro selecionado.",
+    ctaLabel: "Disponível para oportunidades em Arquitetura de Software, Engenharia de Software e Banco de Dados.",
   },
   en: {
     roles: [
       ".NET Software Architect",
       "SQL Server Specialist",
-      "Technical Leadership and DevOps",
+      "DevOps and Platform Engineering",
     ],
     nav: {
       about: "About",
@@ -68,9 +74,15 @@ const uiText = {
     coursesTitle: "Courses",
     contactTitle: "Contact",
     resumeButton: "View Resume",
+    resumeAtsButton: "ATS Resume",
+    resumeFullButton: "Full Resume",
     contactButton: "Contact Me",
     downloadCvButton: "Download CV",
-    ctaLabel: "Open to opportunities in Architecture, Technical Leadership, and Database Engineering.",
+    filterTitle: "Filter by stack",
+    filterAll: "All",
+    noMatchExperience: "No experience found for the selected filter.",
+    noMatchCourses: "No course found for the selected filter.",
+    ctaLabel: "Open to opportunities in Software Architecture, Software Engineering, and Database Engineering.",
   },
 } as const;
 
@@ -119,8 +131,26 @@ const uiText = {
 
 export default function Home() {
   const [language, setLanguage] = useState<Locale>("pt");
+  const [activeTag, setActiveTag] = useState<string>("all");
   const t = cvData[language];
   const text = uiText[language];
+  const tags = t.atsKeywords.slice(0, 10);
+
+  const matchesTag = (value: string, tag: string) => {
+    if (tag === "all") return true;
+    return value.toLowerCase().includes(tag.toLowerCase());
+  };
+
+  const filteredExperience = t.experience.filter((job) => {
+    if (activeTag === "all") return true;
+    const blob = `${job.role} ${job.company} ${job.bullets.join(" ")} ${job.details || ""}`;
+    return matchesTag(blob, activeTag);
+  });
+
+  const filteredCourses = t.courses.filter((course) => {
+    if (activeTag === "all") return true;
+    return matchesTag(course, activeTag);
+  });
 
   useEffect(() => {
     const items = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
@@ -162,41 +192,82 @@ export default function Home() {
             </button>
           </div>
 
-          <p className="mb-2 font-mono text-xs uppercase tracking-[0.28em] text-cyan-300">
-            Portfolio
-          </p>
-          <h1 className="mb-3 text-3xl font-semibold text-cyan-100 md:text-6xl">
-            {t.fullName}
-          </h1>
-          <div className="mb-5 flex flex-wrap gap-2">
-            {text.roles.map((role) => (
-              <span key={role} className="rounded-full border border-cyan-300/30 bg-slate-950/45 px-3 py-1 text-xs text-cyan-100 md:text-sm">
-                {role}
-              </span>
-            ))}
-          </div>
-          <p className="max-w-3xl text-slate-300 md:text-lg">{text.ctaLabel}</p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              href="/curriculo"
-              className="rounded-lg bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400 md:px-6"
-            >
-              {text.resumeButton}
-            </Link>
-            <a
-              href="/curriculo"
-              className="rounded-lg border border-cyan-300/40 px-5 py-3 font-medium text-cyan-100 transition hover:border-cyan-200 hover:text-cyan-50 md:px-6"
-            >
-              {text.downloadCvButton}
-            </a>
-            <a
-              href={`mailto:${t.contact.email}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-cyan-300/40 px-5 py-3 font-medium text-cyan-100 transition hover:border-cyan-200 hover:text-cyan-50 md:px-6"
-            >
-              {text.contactButton}
-            </a>
+          <div className="grid gap-6 md:grid-cols-[1.4fr_1fr]">
+            <div>
+              <p className="mb-2 font-mono text-xs uppercase tracking-[0.28em] text-cyan-300">
+                Portfolio
+              </p>
+              <h1 className="mb-3 text-3xl font-semibold text-cyan-100 md:text-6xl">
+                {t.fullName}
+              </h1>
+              <div className="mb-5 flex flex-wrap gap-2">
+                {text.roles.map((role) => (
+                  <span key={role} className="rounded-full border border-cyan-300/30 bg-slate-950/45 px-3 py-1 text-xs text-cyan-100 md:text-sm">
+                    {role}
+                  </span>
+                ))}
+              </div>
+              <p className="max-w-3xl text-slate-300 md:text-lg">{text.ctaLabel}</p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link
+                  href="/curriculo?mode=ats"
+                  className="rounded-lg bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400 md:px-6"
+                >
+                  {text.resumeAtsButton}
+                </Link>
+                <Link
+                  href="/curriculo?mode=full"
+                  className="rounded-lg border border-cyan-300/40 px-5 py-3 font-medium text-cyan-100 transition hover:border-cyan-200 hover:text-cyan-50 md:px-6"
+                >
+                  {text.resumeFullButton}
+                </Link>
+                <a
+                  href={`mailto:${t.contact.email}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg border border-cyan-300/40 px-5 py-3 font-medium text-cyan-100 transition hover:border-cyan-200 hover:text-cyan-50 md:px-6"
+                >
+                  {text.contactButton}
+                </a>
+              </div>
+            </div>
+
+            <aside className="rounded-xl border border-cyan-300/25 bg-slate-950/55 p-4">
+              <p className="mb-2 text-xs uppercase tracking-[0.2em] text-cyan-300">Focus</p>
+              <ul className="mb-5 space-y-2 text-sm text-slate-300">
+                {t.targetPositions.map((position) => (
+                  <li key={position} className="rounded-md border border-slate-700/80 bg-slate-900/40 px-3 py-2">
+                    {position}
+                  </li>
+                ))}
+              </ul>
+              <p className="mb-2 text-xs uppercase tracking-[0.2em] text-cyan-300">{text.filterTitle}</p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setActiveTag("all")}
+                  className={`rounded-full border px-3 py-1 text-xs transition ${
+                    activeTag === "all"
+                      ? "border-cyan-300 bg-cyan-400/20 text-cyan-100"
+                      : "border-slate-700 text-slate-300 hover:border-cyan-300/60"
+                  }`}
+                >
+                  {text.filterAll}
+                </button>
+                {tags.map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={() => setActiveTag(tag)}
+                    className={`rounded-full border px-3 py-1 text-xs transition ${
+                      activeTag === tag
+                        ? "border-cyan-300 bg-cyan-400/20 text-cyan-100"
+                        : "border-slate-700 text-slate-300 hover:border-cyan-300/60"
+                    }`}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </aside>
           </div>
         </header>
 
@@ -234,7 +305,7 @@ export default function Home() {
           <section id="experience" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.experienceTitle}</h2>
             <div className="space-y-4">
-              {t.experience.map((job) => (
+              {filteredExperience.map((job) => (
                 <article
                   key={`${job.company}-${job.role}`}
                   className="relative rounded-xl border border-slate-700 bg-slate-950/45 p-4 pl-8 transition hover:border-cyan-400/40"
@@ -252,6 +323,11 @@ export default function Home() {
                   </ul>
                 </article>
               ))}
+              {filteredExperience.length === 0 && (
+                <p className="rounded-lg border border-slate-700 bg-slate-950/45 p-4 text-sm text-slate-300">
+                  {text.noMatchExperience}
+                </p>
+              )}
             </div>
           </section>
 
@@ -282,7 +358,7 @@ export default function Home() {
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.coursesTitle}</h2>
             <div className="max-h-[24rem] overflow-y-auto rounded-xl border border-slate-700/70 p-3 pr-2">
               <div className="grid gap-3 md:grid-cols-2">
-              {t.courses.map((course) => (
+              {filteredCourses.map((course) => (
                 <div
                   key={course}
                   className="rounded-xl border border-slate-700 bg-slate-950/45 p-4 text-slate-300 transition hover:border-cyan-400/40"
@@ -290,6 +366,11 @@ export default function Home() {
                   {course}
                 </div>
               ))}
+              {filteredCourses.length === 0 && (
+                <p className="md:col-span-2 rounded-lg border border-slate-700 bg-slate-950/45 p-4 text-sm text-slate-300">
+                  {text.noMatchCourses}
+                </p>
+              )}
               </div>
             </div>
           </section>

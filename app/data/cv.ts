@@ -66,7 +66,7 @@ export const cvData: Record<Locale, CvContent> = {
     headline: "Arquiteto de Software & Especialista em Banco de Dados",
     targetPositions: [
       "Arquiteto de Software .NET",
-      "Líder Técnico",
+      "Especialista em Engenharia de Software",
       "Especialista SQL Server / DBA",
     ],
     atsKeywords: [
@@ -107,9 +107,9 @@ export const cvData: Record<Locale, CvContent> = {
       "Arquiteto de Software e Especialista em Banco de Dados com mais de 10 anos de experiência em arquitetura, sustentação e evolução de sistemas críticos no setor público e privado.",
     ],
     objective:
-      "Arquiteto de Software .NET / Líder Técnico e Especialista em Banco de Dados SQL Server / DBA.",
+      "Arquiteto de Software .NET / Especialista em Engenharia de Software e Especialista em Banco de Dados SQL Server / DBA.",
     expertise:
-      ".NET Full Stack, APIs RESTful, SQL Server, T-SQL, performance tuning, backup e recovery, segurança de dados, liderança ágil com Scrum e Kanban.",
+      ".NET Full Stack, APIs RESTful, SQL Server, T-SQL, performance tuning, backup e recovery, segurança de dados, práticas ágeis com Scrum e Kanban.",
     experienceTitle: "Experiência Profissional",
     experience: [
       {
@@ -242,7 +242,7 @@ export const cvData: Record<Locale, CvContent> = {
     headline: "Software Architect & Database Specialist",
     targetPositions: [
       ".NET Software Architect",
-      "Technical Lead",
+      "Software Engineering Specialist",
       "SQL Server Specialist / DBA",
     ],
     atsKeywords: [
@@ -283,9 +283,9 @@ export const cvData: Record<Locale, CvContent> = {
       "Software Architect and Database Specialist with 10+ years of experience designing, supporting, and evolving critical systems in both public and private sectors.",
     ],
     objective:
-      ".NET Software Architect / Technical Lead and SQL Server Database Specialist / DBA.",
+      ".NET Software Architect / Software Engineering Specialist and SQL Server Database Specialist / DBA.",
     expertise:
-      ".NET Full Stack, RESTful APIs, SQL Server, T-SQL, performance tuning, backup and recovery, data security, agile leadership with Scrum and Kanban.",
+      ".NET Full Stack, RESTful APIs, SQL Server, T-SQL, performance tuning, backup and recovery, data security, agile practices with Scrum and Kanban.",
     experienceTitle: "Professional Experience",
     experience: [
       {
