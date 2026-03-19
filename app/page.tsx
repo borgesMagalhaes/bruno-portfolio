@@ -3,11 +3,17 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
+  FaBolt,
+  FaCode,
+  FaDatabase,
   FaEnvelope,
   FaGithub,
   FaGlobe,
+  FaGraduationCap,
   FaLinkedin,
   FaFileAlt,
+  FaListUl,
+  FaUserAstronaut,
 } from "react-icons/fa";
 import { cvData, Locale } from "@/app/data/cv";
 
@@ -132,6 +138,7 @@ const uiText = {
 export default function Home() {
   const [language, setLanguage] = useState<Locale>("pt");
   const [activeTag, setActiveTag] = useState<string>("all");
+  const [activeSection, setActiveSection] = useState("about");
   const [typedCta, setTypedCta] = useState("");
   const t = cvData[language];
   const text = uiText[language];
@@ -219,6 +226,28 @@ export default function Home() {
     };
   }, [language, activeTag]);
 
+  useEffect(() => {
+    const ids = ["about", "specializations", "experience", "education", "initiatives", "courses", "contact"];
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]?.target?.id) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      { threshold: [0.25, 0.45, 0.65] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen tech-bg text-slate-100">
       <div className="scanline" aria-hidden />
@@ -226,13 +255,13 @@ export default function Home() {
         <header className="reveal mb-8 rounded-2xl border border-cyan-200/20 bg-slate-900/65 p-6 shadow-2xl backdrop-blur md:p-8">
           <div className="mb-7 flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/70 pb-4">
             <nav className="flex flex-wrap gap-2 text-sm">
-              <a href="#about" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.about}</a>
-              <a href="#specializations" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.specializations}</a>
-              <a href="#experience" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.experience}</a>
-              <a href="#education" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.education}</a>
-              <a href="#initiatives" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.initiatives}</a>
-              <a href="#courses" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.courses}</a>
-              <a href="#contact" className="rounded-full border border-cyan-300/25 px-3 py-1 hover:border-cyan-300/70">{text.nav.contact}</a>
+              <a href="#about" className={`rounded-full border px-3 py-1 transition ${activeSection === "about" ? "border-cyan-300 bg-cyan-400/20 text-cyan-100" : "border-cyan-300/25 hover:border-cyan-300/70"}`}>{text.nav.about}</a>
+              <a href="#specializations" className={`rounded-full border px-3 py-1 transition ${activeSection === "specializations" ? "border-cyan-300 bg-cyan-400/20 text-cyan-100" : "border-cyan-300/25 hover:border-cyan-300/70"}`}>{text.nav.specializations}</a>
+              <a href="#experience" className={`rounded-full border px-3 py-1 transition ${activeSection === "experience" ? "border-cyan-300 bg-cyan-400/20 text-cyan-100" : "border-cyan-300/25 hover:border-cyan-300/70"}`}>{text.nav.experience}</a>
+              <a href="#education" className={`rounded-full border px-3 py-1 transition ${activeSection === "education" ? "border-cyan-300 bg-cyan-400/20 text-cyan-100" : "border-cyan-300/25 hover:border-cyan-300/70"}`}>{text.nav.education}</a>
+              <a href="#initiatives" className={`rounded-full border px-3 py-1 transition ${activeSection === "initiatives" ? "border-cyan-300 bg-cyan-400/20 text-cyan-100" : "border-cyan-300/25 hover:border-cyan-300/70"}`}>{text.nav.initiatives}</a>
+              <a href="#courses" className={`rounded-full border px-3 py-1 transition ${activeSection === "courses" ? "border-cyan-300 bg-cyan-400/20 text-cyan-100" : "border-cyan-300/25 hover:border-cyan-300/70"}`}>{text.nav.courses}</a>
+              <a href="#contact" className={`rounded-full border px-3 py-1 transition ${activeSection === "contact" ? "border-cyan-300 bg-cyan-400/20 text-cyan-100" : "border-cyan-300/25 hover:border-cyan-300/70"}`}>{text.nav.contact}</a>
             </nav>
             <button
               onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
@@ -264,7 +293,7 @@ export default function Home() {
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link
                   href="/curriculo?mode=ats"
-                  className="rounded-lg bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400 md:px-6"
+                  className="pulse-cta rounded-lg bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400 md:px-6"
                 >
                   {text.resumeAtsButton}
                 </Link>
@@ -285,7 +314,7 @@ export default function Home() {
               </div>
             </div>
 
-            <aside className="tilt-card aura-card rounded-xl border border-cyan-300/25 bg-slate-950/55 p-4 transition-transform duration-200">
+            <aside className="tilt-card aura-card glass-panel rounded-xl border border-cyan-300/25 bg-slate-950/55 p-4 transition-transform duration-200">
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-cyan-300">Focus</p>
               <ul className="mb-5 space-y-2 text-sm text-slate-300">
                 {t.targetPositions.map((position) => (
@@ -325,8 +354,8 @@ export default function Home() {
         </header>
 
         <main className="grid gap-6 md:grid-cols-2">
-          <section id="about" className="reveal tilt-card aura-card rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 transition-transform duration-200">
-            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.aboutTitle}</h2>
+          <section id="about" className="reveal tilt-card aura-card glass-panel rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 transition-transform duration-200">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-cyan-200"><FaUserAstronaut /> {text.aboutTitle}</h2>
             {t.summary.map((line) => (
               <p key={line} className="mb-3 text-slate-300">
                 {line}
@@ -337,8 +366,8 @@ export default function Home() {
             </p>
           </section>
 
-          <section id="specializations" className="reveal tilt-card aura-card rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 transition-transform duration-200">
-            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.specializationsTitle}</h2>
+          <section id="specializations" className="reveal tilt-card aura-card glass-panel rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 transition-transform duration-200">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-cyan-200"><FaDatabase /> {text.specializationsTitle}</h2>
             <div className="grid gap-3">
               <article className="rounded-lg border border-slate-700 bg-slate-950/45 p-3">
                 <h3 className="mb-1 text-sm font-semibold uppercase tracking-wide text-cyan-100">Database</h3>
@@ -355,8 +384,8 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="experience" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
-            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.experienceTitle}</h2>
+          <section id="experience" className="reveal glass-panel rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-cyan-200"><FaCode /> {text.experienceTitle}</h2>
             <div className="space-y-4">
               {filteredExperience.map((job) => (
                 <article
@@ -384,8 +413,8 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="education" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
-            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.educationTitle}</h2>
+          <section id="education" className="reveal glass-panel rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-cyan-200"><FaGraduationCap /> {text.educationTitle}</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {t.education.map((item) => (
                 <article
@@ -399,16 +428,16 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="initiatives" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
-            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.initiativesTitle}</h2>
+          <section id="initiatives" className="reveal glass-panel rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-cyan-200"><FaBolt /> {text.initiativesTitle}</h2>
             <article className="tilt-card aura-card rounded-xl border border-slate-700 bg-slate-950/45 p-5 transition duration-200">
               <h3 className="mb-2 font-semibold text-cyan-100">{text.initiativesSoonTitle}</h3>
               <p className="text-slate-300">{text.initiativesSoonDescription}</p>
             </article>
           </section>
 
-          <section id="courses" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
-            <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.coursesTitle}</h2>
+          <section id="courses" className="reveal glass-panel rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-cyan-200"><FaListUl /> {text.coursesTitle}</h2>
             <div className="max-h-[24rem] overflow-y-auto rounded-xl border border-slate-700/70 p-3 pr-2">
               <div className="grid gap-3 md:grid-cols-2">
               {filteredCourses.map((course) => (
@@ -429,8 +458,8 @@ export default function Home() {
           </section>
         </main>
 
-        <footer id="contact" className="reveal mt-10 rounded-2xl border border-slate-700/60 bg-slate-900/55 p-5">
-          <h2 className="mb-4 text-center text-xl font-semibold text-cyan-200">{text.contactTitle}</h2>
+        <footer id="contact" className="reveal glass-panel mt-10 rounded-2xl border border-slate-700/60 bg-slate-900/55 p-5">
+          <h2 className="mb-4 flex items-center justify-center gap-2 text-center text-xl font-semibold text-cyan-200"><FaEnvelope /> {text.contactTitle}</h2>
           <div className="mb-4 grid gap-3 text-sm text-slate-300 md:grid-cols-2">
             <a className="flex items-center gap-2 rounded-lg border border-slate-700 px-3 py-2 hover:border-cyan-300/60" href={`mailto:${t.contact.email}`} target="_blank" rel="noopener noreferrer">
               <FaEnvelope /> {t.contact.email}

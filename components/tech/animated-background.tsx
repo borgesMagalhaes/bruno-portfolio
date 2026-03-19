@@ -9,15 +9,28 @@ type Dot = {
   vy: number;
 };
 
+type Ripple = {
+  x: number;
+  y: number;
+  radius: number;
+  alpha: number;
+  growth: number;
+  lineWidth: number;
+  strong?: boolean;
+};
+
 export function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const rippleCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const rippleCanvas = rippleCanvasRef.current;
+    if (!canvas || !rippleCanvas) return;
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const rippleCtx = rippleCanvas.getContext("2d");
+    if (!ctx || !rippleCtx) return;
 
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const reducedMotion = media.matches;
@@ -26,6 +39,8 @@ export function AnimatedBackground() {
     let width = 0;
     let height = 0;
     let dots: Dot[] = [];
+    const ripples: Ripple[] = [];
+    let lastMoveAt = 0;
 
     const initDots = () => {
       const count = Math.max(24, Math.floor((width * height) / 42000));
@@ -37,6 +52,18 @@ export function AnimatedBackground() {
       }));
     };
 
+    const addRipple = (x: number, y: number, strong = false) => {
+      ripples.push({
+        x,
+        y,
+        radius: strong ? 8 : 3,
+        alpha: strong ? 0.72 : 0.38,
+        growth: strong ? 2.1 : 1.35,
+        lineWidth: strong ? 2.4 : 1.4,
+        strong,
+      });
+    };
+
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
       width = window.innerWidth;
@@ -46,11 +73,18 @@ export function AnimatedBackground() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+      rippleCanvas.width = Math.floor(width * ratio);
+      rippleCanvas.height = Math.floor(height * ratio);
+      rippleCanvas.style.width = `${width}px`;
+      rippleCanvas.style.height = `${height}px`;
+      rippleCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
       initDots();
     };
 
     const drawFrame = () => {
       ctx.clearRect(0, 0, width, height);
+      rippleCtx.clearRect(0, 0, width, height);
 
       for (let i = 0; i < dots.length; i += 1) {
         const dot = dots[i];
@@ -87,6 +121,45 @@ export function AnimatedBackground() {
         }
       }
 
+      for (let i = ripples.length - 1; i >= 0; i -= 1) {
+        const ripple = ripples[i];
+        ripple.radius += ripple.growth;
+        ripple.alpha *= 0.965;
+        if (ripple.alpha < 0.02) {
+          ripples.splice(i, 1);
+          continue;
+        }
+
+        const glow = rippleCtx.createRadialGradient(
+          ripple.x,
+          ripple.y,
+          Math.max(1, ripple.radius * 0.15),
+          ripple.x,
+          ripple.y,
+          ripple.radius * 2.2,
+        );
+        glow.addColorStop(0, `rgba(34, 211, 238, ${ripple.alpha * (ripple.strong ? 0.34 : 0.22)})`);
+        glow.addColorStop(1, "rgba(34, 211, 238, 0)");
+        rippleCtx.fillStyle = glow;
+        rippleCtx.beginPath();
+        rippleCtx.arc(ripple.x, ripple.y, ripple.radius * 2.2, 0, Math.PI * 2);
+        rippleCtx.fill();
+
+        // Outer wave
+        rippleCtx.beginPath();
+        rippleCtx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
+        rippleCtx.strokeStyle = `rgba(160, 247, 255, ${ripple.alpha})`;
+        rippleCtx.lineWidth = ripple.lineWidth;
+        rippleCtx.stroke();
+
+        // Secondary ring to mimic water propagation
+        rippleCtx.beginPath();
+        rippleCtx.arc(ripple.x, ripple.y, ripple.radius * 0.68, 0, Math.PI * 2);
+        rippleCtx.strokeStyle = `rgba(96, 232, 255, ${ripple.alpha * 0.72})`;
+        rippleCtx.lineWidth = Math.max(1, ripple.lineWidth - 0.6);
+        rippleCtx.stroke();
+      }
+
       if (!reducedMotion) {
         raf = window.requestAnimationFrame(drawFrame);
       }
@@ -96,14 +169,34 @@ export function AnimatedBackground() {
     drawFrame();
 
     const onResize = () => resize();
+    const onMouseMove = (event: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastMoveAt < 55) return;
+      lastMoveAt = now;
+      addRipple(event.clientX, event.clientY, false);
+    };
+    const onClick = (event: MouseEvent) => {
+      addRipple(event.clientX, event.clientY, true);
+      addRipple(event.clientX, event.clientY, true);
+      addRipple(event.clientX, event.clientY, false);
+    };
+
     window.addEventListener("resize", onResize);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("click", onClick);
 
     return () => {
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("click", onClick);
       if (raf) window.cancelAnimationFrame(raf);
     };
   }, []);
 
-  return <canvas ref={canvasRef} aria-hidden className="tech-canvas print:hidden" />;
+  return (
+    <>
+      <canvas ref={canvasRef} aria-hidden className="tech-canvas print:hidden" />
+      <canvas ref={rippleCanvasRef} aria-hidden className="tech-ripple-canvas print:hidden" />
+    </>
+  );
 }
-
