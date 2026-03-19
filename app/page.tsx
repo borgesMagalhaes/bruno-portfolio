@@ -30,6 +30,9 @@ const uiText = {
     aboutTitle: "Sobre",
     specializationsTitle: "Especialidades",
     initiativesTitle: "Projetos e Iniciativas",
+    initiativesSoonTitle: "Conteúdo em evolução",
+    initiativesSoonDescription:
+      "Esta seção ficará ativa com estudos de caso e projetos em produção. Em breve, vou publicar iniciativas com contexto técnico e resultados.",
     experienceTitle: "Experiência",
     educationTitle: "Formação Acadêmica",
     coursesTitle: "Cursos",
@@ -57,6 +60,9 @@ const uiText = {
     aboutTitle: "Professional Summary",
     specializationsTitle: "Specializations",
     initiativesTitle: "Projects and Initiatives",
+    initiativesSoonTitle: "Content in progress",
+    initiativesSoonDescription:
+      "This section will be enabled with case studies and production projects. I will publish initiatives with technical context and outcomes soon.",
     experienceTitle: "Experience",
     educationTitle: "Academic Background",
     coursesTitle: "Courses",
@@ -68,7 +74,7 @@ const uiText = {
   },
 } as const;
 
-const initiatives = {
+/* const initiatives = {
   pt: [
     {
       title: "Portfólio Profissional",
@@ -109,7 +115,7 @@ const initiatives = {
       internal: false,
     },
   ],
-} as const;
+} as const; */
 
 export default function Home() {
   const [language, setLanguage] = useState<Locale>("pt");
@@ -266,23 +272,10 @@ export default function Home() {
 
           <section id="initiatives" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.initiativesTitle}</h2>
-            <div className="grid gap-4 md:grid-cols-3">
-              {initiatives[language].map((item) => (
-                <article key={item.title} className="rounded-xl border border-slate-700 bg-slate-950/45 p-4">
-                  <h3 className="mb-2 font-semibold text-cyan-100">{item.title}</h3>
-                  <p className="mb-4 text-sm text-slate-300">{item.description}</p>
-                  {item.internal ? (
-                    <Link href={item.href} className="text-sm text-cyan-300 underline-offset-4 hover:underline">
-                      {language === "pt" ? "Abrir seção" : "Open section"}
-                    </Link>
-                  ) : (
-                    <a href={item.href} target="_blank" rel="noopener noreferrer" className="text-sm text-cyan-300 underline-offset-4 hover:underline">
-                      {language === "pt" ? "Acessar link" : "Open link"}
-                    </a>
-                  )}
-                </article>
-              ))}
-            </div>
+            <article className="rounded-xl border border-slate-700 bg-slate-950/45 p-5">
+              <h3 className="mb-2 font-semibold text-cyan-100">{text.initiativesSoonTitle}</h3>
+              <p className="text-slate-300">{text.initiativesSoonDescription}</p>
+            </article>
           </section>
 
           <section id="courses" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
