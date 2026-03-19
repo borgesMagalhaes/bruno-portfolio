@@ -1,67 +1,77 @@
-# Professional Portfolio - Bruno Magalhães
+# Bruno Magalhães - Portfolio
 
-Este é o repositório do portfólio profissional de **Bruno Magalhães**, especialista em **.NET, DevOps & Segurança**. O site apresenta informações sobre minha trajetória profissional, habilidades, experiências e certificações.
+Portfólio profissional em Next.js com visual hightech, navegação por seções, currículo em dois modos (ATS e completo) e publicação em GitHub Pages.
 
-## 🚀 Tecnologias Utilizadas
+## Stack
 
-- **[Next.js](https://nextjs.org)** - Framework React para desenvolvimento full-stack.
-- **[Tailwind CSS](https://tailwindcss.com/)** - Estilização moderna e responsiva.
-- **TypeScript** - Tipagem estática para maior segurança e escalabilidade.
-- **React Icons** - Biblioteca para ícones sociais.
+- Next.js 15.5.13
+- React 18
+- TypeScript
+- Tailwind CSS
+- React Icons
 
-## 📌 Funcionalidades
+## Funcionalidades Principais
 
-- 📄 **Seção Sobre Mim** - Resumo da experiência profissional e áreas de especialização.
-- 💼 **Experiência Profissional** - Histórico detalhado de atuação no mercado.
-- 🎓 **Formação Acadêmica** - Cursos e especializações concluídas.
-- 📚 **Certificações e Próximos Passos** - Lista de certificações obtidas e planejadas.
-- 🔗 **Links para Redes Profissionais** - Acesso direto ao LinkedIn, Lattes e Instagram.
+- Home com layout single-page (âncoras: Sobre, Especialidades, Experiência, Formação, Iniciativas, Cursos e Contato).
+- Hero com foco profissional e CTAs para currículo ATS/completo.
+- Filtro por stack usando palavras-chave reais do currículo.
+- Timeline de experiência profissional.
+- Formação acadêmica e cursos com rolagem.
+- Página `/curriculo` com:
+  - modo ATS (enxuto),
+  - modo completo (detalhado),
+  - preview,
+  - geração HTML,
+  - export TXT (ATS),
+  - impressão/PDF.
+- Internacionalização PT/EN.
 
-## 📦 Como Rodar o Projeto
+## Efeitos Visuais (HighTech)
 
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   ```
-2. Acesse a pasta do projeto:
-   ```bash
-   cd bruno-portfolio
-   ```
-3. Instale as dependências:
-   ```bash
-   npm install
-   # ou
-   yarn install
-   ```
-4. Execute o servidor de desenvolvimento:
-   ```bash
-   npm run dev
-   # ou
-   yarn dev
-   ```
-5. Acesse o site no navegador:
-   ```
-   http://localhost:3000
-   ```
+- Fundo tecnológico com gradientes e grid animado.
+- Scanline com rastro luminoso.
+- Ripple interativo no fundo (movimento do mouse e clique).
+- Cursor glow customizado para desktop.
+- Cards com efeito aura no hover.
+- Tilt 3D sutil em cards.
+- Texto do hero com type reveal.
+- CTA principal com pulso discreto.
+- Respeito a `prefers-reduced-motion` e fallback para dispositivos touch.
 
-## 📤 Implantação
+## Segurança e Manutenção
 
-Este projeto pode ser implantado facilmente em plataformas como:
-- **[Vercel](https://vercel.com/)**
-- **[Netlify](https://www.netlify.com/)**
-- **GitHub Pages (com adaptações)**
+- Dependências atualizadas para reduzir vulnerabilidades (incluindo upgrade de Next.js para 15.5.13).
+- `dist/` ignorado no Git principal para evitar commits de artefatos gerados.
+- Script de deploy com limpeza de cache para evitar problemas comuns no Windows/OneDrive.
 
-## 📖 Saiba Mais
+## Execução Local
 
-Para aprender mais sobre as tecnologias utilizadas:
-- [Documentação Next.js](https://nextjs.org/docs)
-- [Guia Tailwind CSS](https://tailwindcss.com/docs)
-- [Deploy de Aplicações Next.js](https://nextjs.org/docs/app/building-your-application/deploying)
+```bash
+npm install
+npm run dev
+```
 
-## 📜 Licença
+Acesse: `http://localhost:3000`
 
-Este projeto é de código aberto e pode ser utilizado para aprendizado e referências. Caso deseje contribuir, fique à vontade para abrir um pull request!
+## Build de Produção (estático)
 
----
+```bash
+npm run build
+```
 
-Desenvolvido por **Bruno Magalhães** 🚀
+Saída estática em `dist/`.
+
+## Deploy (GitHub Pages)
+
+```bash
+npm run deploy
+```
+
+O script:
+- limpa `.next` e cache local do `gh-pages`,
+- gera build estático,
+- publica no GitHub Pages.
+
+## Autor
+
+Bruno Magalhães
