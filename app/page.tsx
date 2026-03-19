@@ -132,6 +132,7 @@ const uiText = {
 export default function Home() {
   const [language, setLanguage] = useState<Locale>("pt");
   const [activeTag, setActiveTag] = useState<string>("all");
+  const [typedCta, setTypedCta] = useState("");
   const t = cvData[language];
   const text = uiText[language];
   const tags = t.atsKeywords.slice(0, 10);
@@ -168,6 +169,55 @@ export default function Home() {
     items.forEach((item) => observer.observe(item));
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    setTypedCta("");
+    const full = text.ctaLabel;
+    let i = 0;
+    const timer = window.setInterval(() => {
+      i += 1;
+      setTypedCta(full.slice(0, i));
+      if (i >= full.length) {
+        window.clearInterval(timer);
+      }
+    }, 14);
+    return () => window.clearInterval(timer);
+  }, [text.ctaLabel]);
+
+  useEffect(() => {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".tilt-card"));
+    const media = window.matchMedia("(pointer: coarse)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches || reduce.matches) return;
+
+    const moveHandlers: Array<(e: MouseEvent) => void> = [];
+    const leaveHandlers: Array<() => void> = [];
+
+    cards.forEach((card) => {
+      const onMove = (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rotateY = ((x / rect.width) - 0.5) * 6;
+        const rotateX = (0.5 - (y / rect.height)) * 6;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+      };
+      const onLeave = () => {
+        card.style.transform = "";
+      };
+      card.addEventListener("mousemove", onMove);
+      card.addEventListener("mouseleave", onLeave);
+      moveHandlers.push(onMove);
+      leaveHandlers.push(onLeave);
+    });
+
+    return () => {
+      cards.forEach((card, idx) => {
+        card.removeEventListener("mousemove", moveHandlers[idx]);
+        card.removeEventListener("mouseleave", leaveHandlers[idx]);
+      });
+    };
+  }, [language, activeTag]);
 
   return (
     <div className="min-h-screen tech-bg text-slate-100">
@@ -207,7 +257,10 @@ export default function Home() {
                   </span>
                 ))}
               </div>
-              <p className="max-w-3xl text-slate-300 md:text-lg">{text.ctaLabel}</p>
+              <p className="max-w-3xl text-slate-300 md:text-lg hero-typed">
+                {typedCta}
+                <span className="typed-caret" aria-hidden>|</span>
+              </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link
                   href="/curriculo?mode=ats"
@@ -232,7 +285,7 @@ export default function Home() {
               </div>
             </div>
 
-            <aside className="rounded-xl border border-cyan-300/25 bg-slate-950/55 p-4">
+            <aside className="tilt-card aura-card rounded-xl border border-cyan-300/25 bg-slate-950/55 p-4 transition-transform duration-200">
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-cyan-300">Focus</p>
               <ul className="mb-5 space-y-2 text-sm text-slate-300">
                 {t.targetPositions.map((position) => (
@@ -272,7 +325,7 @@ export default function Home() {
         </header>
 
         <main className="grid gap-6 md:grid-cols-2">
-          <section id="about" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6">
+          <section id="about" className="reveal tilt-card aura-card rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 transition-transform duration-200">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.aboutTitle}</h2>
             {t.summary.map((line) => (
               <p key={line} className="mb-3 text-slate-300">
@@ -284,7 +337,7 @@ export default function Home() {
             </p>
           </section>
 
-          <section id="specializations" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6">
+          <section id="specializations" className="reveal tilt-card aura-card rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 transition-transform duration-200">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.specializationsTitle}</h2>
             <div className="grid gap-3">
               <article className="rounded-lg border border-slate-700 bg-slate-950/45 p-3">
@@ -308,7 +361,7 @@ export default function Home() {
               {filteredExperience.map((job) => (
                 <article
                   key={`${job.company}-${job.role}`}
-                  className="relative rounded-xl border border-slate-700 bg-slate-950/45 p-4 pl-8 transition hover:border-cyan-400/40"
+                  className="tilt-card aura-card relative rounded-xl border border-slate-700 bg-slate-950/45 p-4 pl-8 transition duration-200 hover:border-cyan-400/40"
                 >
                   <span className="absolute left-3 top-5 h-3 w-3 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(34,211,238,0.7)]" />
                   <span className="absolute bottom-4 left-[17px] top-9 w-px bg-slate-700" />
@@ -337,7 +390,7 @@ export default function Home() {
               {t.education.map((item) => (
                 <article
                   key={`${item.title}-${item.period}`}
-                  className="rounded-xl border border-slate-700 bg-slate-950/45 p-4 transition hover:border-cyan-400/40"
+                  className="tilt-card aura-card rounded-xl border border-slate-700 bg-slate-950/45 p-4 transition duration-200 hover:border-cyan-400/40"
                 >
                   <h3 className="font-semibold text-cyan-100">{item.title}</h3>
                   <p className="mt-1 text-sm text-slate-400">{item.period}</p>
@@ -348,7 +401,7 @@ export default function Home() {
 
           <section id="initiatives" className="reveal rounded-2xl border border-slate-700/60 bg-slate-900/55 p-6 md:col-span-2">
             <h2 className="mb-4 text-xl font-semibold text-cyan-200">{text.initiativesTitle}</h2>
-            <article className="rounded-xl border border-slate-700 bg-slate-950/45 p-5">
+            <article className="tilt-card aura-card rounded-xl border border-slate-700 bg-slate-950/45 p-5 transition duration-200">
               <h3 className="mb-2 font-semibold text-cyan-100">{text.initiativesSoonTitle}</h3>
               <p className="text-slate-300">{text.initiativesSoonDescription}</p>
             </article>
@@ -361,7 +414,7 @@ export default function Home() {
               {filteredCourses.map((course) => (
                 <div
                   key={course}
-                  className="rounded-xl border border-slate-700 bg-slate-950/45 p-4 text-slate-300 transition hover:border-cyan-400/40"
+                  className="tilt-card aura-card rounded-xl border border-slate-700 bg-slate-950/45 p-4 text-slate-300 transition duration-200 hover:border-cyan-400/40"
                 >
                   {course}
                 </div>

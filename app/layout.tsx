@@ -4,6 +4,7 @@ import Script from "next/script";
 import type { Metadata } from "next";
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { AnimatedBackground } from "@/components/tech/animated-background";
+import { CursorGlow } from "@/components/tech/cursor-glow";
 
 const headingFont = Space_Grotesk({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR">
       <body className={`${headingFont.variable} ${bodyFont.variable}`} suppressHydrationWarning>
         <AnimatedBackground />
+        <CursorGlow />
         {isProduction && GA_ID && (
           <>
             <Script
